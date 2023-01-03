@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, createContext } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { View, ActivityIndicator } from 'react-native';
+import { onAuthStateChanged } from 'firebase/auth';
+ 
+import Chat from './screens/Chat';
+import Login from './screens/Login';
+import Signup from './screens/Signup';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const Stack = createStackNavigator();
+const AuthenticatedUserContext = createContext({});
+
+const AuthenticatedUserProvider = ({children}) => {
+    const [user, setUser] = useState(null);
+
+    return (
+        <AuthenticatedUserContext.Provider value={{user, setUser}}>
+            {children}
+        </AuthenticatedUserContext.Provider>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function ChatStack() {
+    return (
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Chat" component={Chat} />
+        </Stack.Navigator>
+    )
+}
+
+function RootNavigator() {
+    return (
+        <NavigationContainer>
+            <ChatStack />
+        </NavigationContainer>
+    );
+}
+
+export default function App() {
+    return <RootNavigator />
+}
