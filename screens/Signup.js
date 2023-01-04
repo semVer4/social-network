@@ -6,7 +6,7 @@ import { View, StyleSheet, StatusBar, Text, TouchableOpacity } from 'react-nativ
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput } from 'react-native-gesture-handler';
 
-function Signup({navigation}) {
+function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
